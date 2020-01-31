@@ -71,16 +71,16 @@ Then you can know on any page if a user is authenticated using `next-cookie` and
 import nextCookies from 'next-cookies'
 import decode from 'jwt-decode'
 import React from 'react'
+import { FIREBASE_COOKIE_NAME } from '../constants'
+import { NextPage } from 'next'
 
-const Page = ({ loggedIn }) => {
+const Page: NextPage = ({ loggedIn, isAdmin }) => {
     return <div>loggedIn = {loggedIn}</div>
 }
 
-const FIREBASE_COOKIE_KEY = 'firebaseCookie'
-
-Page.getInitialProps = ({ ctx }) => {
+Page.getInitialProps = async (ctx) => {
     // nextCookies gets the cookies both in client and server
-    const jwt = nextCookies(ctx)[FIREBASE_COOKIE_KEY]
+    const jwt = nextCookies(ctx)[FIREBASE_COOKIE_NAME]
     if (!jwt) {
         return { loggedIn: false, isAdmin: false }
     }
@@ -92,4 +92,6 @@ Page.getInitialProps = ({ ctx }) => {
         isAdmin,
     }
 }
+
+export default Page
 ```
