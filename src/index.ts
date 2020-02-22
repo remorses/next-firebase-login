@@ -11,7 +11,7 @@ export function firebaseLoginWithCookie({
         const idToken = await req.body
         if (!idToken) {
             console.log('received request without idToken')
-            res.status(401).text('unauthorized')
+            res.status(401).send('unauthorized')
             return
         }
         const expiresIn = 60 * 60 * 24 * cookieExpiresInDays * 1000
@@ -28,19 +28,19 @@ export function firebaseLoginWithCookie({
                             path: '/',
                             // httpOnly: true,
                             // secure: true
-                        })
+                        }),
                     )
                     if (verbose) {
                         console.log('generated cookie for idToken', idToken)
                     }
-                    res.text(sessionCookie)
+                    res.send(sessionCookie)
                 },
                 (error) => {
                     if (verbose) {
                         console.log('cannot create session cookie ' + error)
                     }
-                    res.status(500).text('')
-                }
+                    res.status(500).send(error.message)
+                },
             )
     }
 }
