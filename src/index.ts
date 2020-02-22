@@ -15,7 +15,7 @@ export function firebaseLoginWithCookie({
             return
         }
         const expiresIn = 60 * 60 * 24 * cookieExpiresInDays * 1000
-        admin
+        await admin
             .auth()
             .createSessionCookie(idToken, { expiresIn })
             .then(
